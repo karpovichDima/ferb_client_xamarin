@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using App1.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,8 +29,16 @@ namespace App1.Views
         private void SignInProcedure(object sender, EventArgs e)
         {
             var user = new User(EntryUsername.Text, EntryPassword.Text);
-            DisplayAlert("Login",
-                user.CheckInformation() ? "Login Success." : "Login not correct, empty username or password", "Ok");
+
+            if (user.CheckInformation())
+            {
+                DisplayAlert("Login", "Login Success.", "Ok");
+                App.UserDatabase.SaveUser(user);
+            }
+            else
+            {
+                DisplayAlert("Login", "Login not correct, empty username or password", "Ok");
+            }
         }
     }
 }
