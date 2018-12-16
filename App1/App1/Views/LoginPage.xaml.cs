@@ -15,19 +15,26 @@ namespace App1.Views
         public LoginPage()
         {
             InitializeComponent();
+            Init();
         }
 
-        void SignInProcedure(object sender, EventArgs e)
+        private void Init()
         {
-            User user = new User(Entry_Username.Text, Entry_Password.Text);
-            if (user.CheckInformation())
-            {
-                DisplayAlert("Login", "Login Success.", "Ok");
-            }
-            else
-            {
-                DisplayAlert("Login", "Login not correct, empty username or password", "Ok");
-            }
+            BackgroundColor = Constants.BackgroundColor;
+            LblUsername.TextColor = Constants.MainTextColor;
+            LblPassword.TextColor = Constants.MainTextColor;
+            ActivitySpinner.IsVisible = false;
+            LoginIcon.HeightRequest = Constants.LogicIconHeight;
+
+            EntryUsername.Completed += (s, e) => EntryPassword.Focus();
+            EntryPassword.Completed += SignInProcedure;
+        }
+
+        private void SignInProcedure(object sender, EventArgs e)
+        {
+            var user = new User(EntryUsername.Text, EntryPassword.Text);
+            DisplayAlert("Login",
+                user.CheckInformation() ? "Login Success." : "Login not correct, empty username or password", "Ok");
         }
     }
 }

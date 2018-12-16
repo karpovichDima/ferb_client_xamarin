@@ -14,16 +14,25 @@ namespace App1.Models
 
         public User(string username, string password)
         {
+            if (password == null || username == null)
+            {
+                Password = "";
+                Username = "";
+                return;
+            }
+            
             Username = username;
             Password = password;
         }
 
         public bool CheckInformation()
         {
-            if (!this.Username.Equals("") && !this.Password.Equals(""))
+            if (!Username.Equals("") && !Password.Equals(""))
+            {
                 return true;
-            else
-                return false;
+            }
+
+            return false;
         }
     }
 }
